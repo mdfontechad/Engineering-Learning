@@ -45,6 +45,18 @@ let TaskE: Task={
 let everyTask: Task[]=[TaskA,TaskB,TaskC,TaskD,TaskE];
 
 const getCompletedTasks=(AllTasks:Task[]):Task[]=>{
+    let completedTasks: Task[] =[];
+    AllTasks.forEach(element => {
+        if (element.completed){
+            completedTasks.push(element);
+        }
+    });
+        return completedTasks
+}
+let completed:Task[]=getCompletedTasks(everyTask);
 
-    return [TaskE]
+for (let index = 0; index < completed.length; index++) {
+    const element = completed[index];
+    console.log("element "+index+",Tarea: "+element?.tittle)
+    
 }
