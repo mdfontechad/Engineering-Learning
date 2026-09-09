@@ -1,7 +1,8 @@
 
-const fastify = require('fastify')({
-  logger: true
-})
+import Fastify from 'fastify';
+
+const fastify = Fastify();
+
 declare const process: {
   exit(code?: number): never;
 };
