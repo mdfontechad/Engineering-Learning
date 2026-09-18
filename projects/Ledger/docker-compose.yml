@@ -1,16 +1,81 @@
+# Modern Docker Compose no longer requires the "version" field.
+# version: '3.8'
+
 services:
+
+  # --------------------------------------------------
+  # PostgreSQL database
+  # --------------------------------------------------
+  postgres:
+
+    # We don't need to build PostgreSQL ourselves.
+    # Docker will download this image from a registry.
+    image: postgres:16-alpine
+
+    # Optional custom name for the container.
+    container_name: tiendacontrol_db
+
+    # Environment variables used to initialize PostgreSQL.
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: tiendacontrol
+
+    # HOST_PORT:CONTAINER_PORT
+    # Allows your computer to connect to PostgreSQL
+    # using localhost:5432.
+    ports:
+      - "5432:5432"
+
+    # Persistent storage for the PostgreSQL data.
+    # The data survives if the container is removed.
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    # Docker periodically checks whether PostgreSQL
+    # is actually ready to accept connections.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tiendacontrol"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+  # --------------------------------------------------
+  # API
+  # --------------------------------------------------
   api:
+
+    # Build our API image using our own Dockerfile.
     build:
       context: .
       dockerfile: Dockerfile
+
+    # HOST_PORT:CONTAINER_PORT
     ports:
       - "3000:3000"
+
+    # Environment variables available inside the API container.
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - PORT=3000
       - HOST=0.0.0.0
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+
+      # IMPORTANT:
+      # "postgres" is the name of the PostgreSQL service above.
+      # Containers can communicate using service names.
+      - DATABASE_URL=postgres://postgres:postgrespassword@postgres:5432/tiendacontrol
+
+    # Don't start the API until PostgreSQL passes its healthcheck.
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+
+# --------------------------------------------------
+# Named volumes
+# --------------------------------------------------
+volumes:
+
+  # Docker manages this volume and stores PostgreSQL data here.
+  postgres_data:

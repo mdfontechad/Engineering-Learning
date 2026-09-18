@@ -8,9 +8,8 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test":"npx vitest run",
+    "test": "npx vitest run",
     "lint": "eslint ."
-    
   },
   "keywords": [],
   "author": "",
@@ -18,13 +17,16 @@
   "dependencies": {
     "@fastify/env": "^7.0.0",
     "dotenv": "^17.4.2",
-    "fastify": "^5.12.4"
+    "drizzle-orm": "^0.45.2",
+    "fastify": "^5.12.4",
+    "postgres": "^3.4.9"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.5.1",
     "@typescript-eslint/eslint-plugin": "^8.70.0",
     "@typescript-eslint/parser": "^8.70.0",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^10.10.0",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.9.6",

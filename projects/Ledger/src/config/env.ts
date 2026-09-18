@@ -6,6 +6,7 @@ export const envSchema={
     properties:{
     PORT: { type: 'string', default: '3000' },
     HOST: { type: 'string', default: '0.0.0.0' },
+    DATABASE_URL: { type: 'string' },
     NODE_ENV: { type: 'string', default: 'development' },
   },
 };
