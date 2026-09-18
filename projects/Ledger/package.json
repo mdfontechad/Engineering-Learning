@@ -8,7 +8,9 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test":"npx vitest run"
+    "test":"npx vitest run",
+    "lint": "eslint ."
+    
   },
   "keywords": [],
   "author": "",

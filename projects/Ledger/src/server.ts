@@ -1,4 +1,4 @@
-import { buildApp } from "./app";
+import { buildApp } from "./app.js";
 async function start() {
     const app = await buildApp();
     try {
